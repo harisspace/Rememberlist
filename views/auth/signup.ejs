@@ -1,0 +1,111 @@
+<%- include('../partials/header') %> 
+<%- include('../partials/nav') %> 
+
+<div class="__wrapper">
+    <!-- signup -->
+    <div class="card shadow __card-sign-in">
+        <div class="card-body">
+            <form class="__form-signup">
+                <div class="card-title fs-6 __text-gray">Sig Up</div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        Email
+                        <span class="__required">*</span>
+                    </label>
+                    <input required type="email" class="form-control" id="email" placeholder="Email">
+                    <span class="__text-orange __text-tiny __notice-email"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="full-name" class="form-label">
+                        Full Name
+                        <span class="__required">*</span>
+                    </label>
+                    <input required type="text" class="form-control" id="full-name" placeholder="Full Name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        Password
+                        <span class="__required">*</span>
+                    </label>
+                    <input required type="password" class="form-control" id="password" placeholder="Password">
+                    <span class="__text-orange __text-tiny __notice-password"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password-confirm" class="form-label">
+                        Confirm Password
+                        <span class="__required">*</span>
+                    </label>
+                    <input required type="password" class="form-control" id="password-confirm" placeholder="Confirm Password">
+                    <span class="__text-orange __text-tiny __notice-password-confirm"></span>
+                </div>
+
+                <input disabled="true" class="btn btn-primary m-auto d-block btn-warning __btn-submit" type="submit" value="SignUp">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/menu') %>
+
+<script>
+    // settings
+    const $ = function(query) {
+        return document.querySelector(query)
+    }
+
+    // input
+    const pass = $('#password')
+    const confPass = $('#password-confirm')
+    const email = $('#email')
+    const name = $('#full-name')
+
+    // button
+    const button = $('.__btn-submit')
+
+    // form
+    const signupForm = $('.__form-signup')
+    
+    // notice
+    const emailNotice = $('.__notice-email')
+    const passNotice = $('.__notice-password')
+    const confPassNotice = $('.__notice-password-confirm')
+
+    confPass.addEventListener('input', (e) => {
+        if (pass.value === e.target.value) {
+            confPassNotice.textContent = 'correct password'
+            button.disabled = false
+        } else {
+            button.disabled = true
+            confPassNotice.textContent = 'wrong password'
+        }
+    })
+
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const passVal = pass.value
+        const emailVal = email.value
+        const nameVal = name.value
+        console.log(emailVal, nameVal, passVal)
+
+
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ emailVal, nameVal, passVal })
+            })
+            console.log(response)
+        } catch(err) {
+            console.log(err)
+        }
+    })
+
+
+</script>
+
+<%- include('../partials/footer') %>

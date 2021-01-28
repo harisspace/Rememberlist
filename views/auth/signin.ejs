@@ -1,0 +1,39 @@
+<%- include('../partials/header') %> 
+<%- include('../partials/nav') %> 
+
+<div class="__wrapper">
+
+    <!-- signin -->
+    <div class="card shadow __card-sign-in">
+        <div class="card-body">
+            <form action="">
+                <div class="card-title fs-6 __text-gray">Sig In</div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">
+                        Username
+                        <span class="__required">*</span>
+                    </label>
+                    <input type="email" class="form-control" id="username" placeholder="Username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        Password
+                        <span class="__required">*</span>
+                    </label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                
+                <input class="btn btn-primary m-auto d-block btn-warning" type="submit" value="SignIn">
+
+                <span class="mt-3 d-block">
+                    Belum punya akun? 
+                        <a class="__text-yellow" href="/signup">Daftar</a>
+                    di sini
+                </span>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/menu') %> 
+<%- include('../partials/footer') %> 

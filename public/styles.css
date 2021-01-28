@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
+
+:root {
+    --bg-color: #49D6FF;
+    --black: #000000;
+    --gray1: #444444;
+    --gray2: #707070;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --indigo: #6610f2;
+    --white: #ffffff;
+    --popins: 'Poppins', sans-serif;
+    --roboto: 'Roboto', sans-serif;
+    --font: 12px;
+    --font-head-min: 15px;
+    --font-menu: 9.6px;
+    --font-head: 16px;
+}
+
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--popins);
+    color: var(--black);
+}
+
+/* utils */
+
+p {
+    font-size: var(--font);
+}
+
+.__text-normal {
+    font-size: var(--font) !important;
+}
+.__text-tiny {
+    font-size: var(--font-menu) !important;
+}
+.__text-head-min {
+    font-size: var(--font-head-min) !important;
+}
+.__text-head {
+    font-size: var(--font-head) !important;
+}
+
+/* text color utils */
+.__text-yellow {
+    color: var(--yellow) !important;
+}
+.__text-orange {
+    color: var(--orange) !important;
+}
+.__text-black {
+    color: var(--black) !important;
+}
+.__text-gray {
+    color: var(--gray2) !important;
+}
+.__text-blue {
+    color: var(--bg-color) !important;
+}
+.__text-white {
+    color: var(--white) !important;
+}
+
+/* text decoration utils */
+.__text-none {
+    list-style: none;
+    text-decoration: none;
+}
+
+/* background */
+.__bg-orange {
+    background-color: var(--orange);
+}
+.__bg-indigo {
+    background-color: var(--indigo);
+}
+.__bg-yellow {
+    background-color: var(--yellow);
+}
+
+/* wrapper */
+
+.__wrapper {
+    max-width: calc(100% - 20px);
+    margin: auto;
+}
+
+.__required {
+    color: var(--orange);
+}
+
+/* component */
+
+.__nav {
+    background-color: var(--bg-color);
+    box-shadow: 0px -2px 8px var(--gray1);
+}
+
+.__nav a {
+    color: var(--black);
+}
+
+.__search {
+    border-radius: 30px;
+    height: 30px;
+}
+
+/* .__search::after {
+    background-image: url('./assets/search-solid.svg');
+} */
+
+/* menu */
+.__menu {
+    box-shadow: 0px 4px 12px var(--gray1);
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+}
+
+nav.__menu {
+    z-index: 9999999 !important;
+}
+
+.__menu-list {
+    /* z-index: 999; */
+    list-style: none;
+    padding: 0;
+}
+
+.__menu-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.__menu-list li i {
+    color: var(--gray2);
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.__menu-list a {
+    text-decoration: none;
+    color: var(--gray2);
+    font-size: var(--font-menu);
+}
+
+.__menu-list a i {
+    font-size: 16px;
+}
+
+/* card */
+.__card-sign-in {
+    font-size: var(--font);
+}
+
+.__card-sign-in input {
+    height: 30px;
+    font-size: var(--font);
+    padding: 2px 5px;
+}
+
+
+@media screen and (max-width: 576px) {
+    :root {
+        --font-head-min: 13px;
+    }
+    /* nav */
+    .__search {
+        max-width: 167px;
+    }
+    
+}
+
+@media screen and (min-width: 576px) {
+    /* menu */
+    .__menu-list {
+        max-width: 50%;
+        margin: auto;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* menu */
+    .__menu {
+        display: none;
+    }
+}
