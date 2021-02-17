@@ -6,14 +6,15 @@
     <!-- signin -->
     <div class="card shadow __card-sign-in">
         <div class="card-body">
-            <form action="">
+            <form class="__form-signin">
                 <div class="card-title fs-6 __text-gray">Sig In</div>
                 <div class="mb-3">
-                    <label for="username" class="form-label">
-                        Username
+                    <label for="email" class="form-label">
+                        Email
                         <span class="__required">*</span>
                     </label>
-                    <input type="email" class="form-control" id="username" placeholder="Username">
+                    <input type="email" class="form-control" id="email" placeholder="email">
+                    <span class="__text-orange __text-tiny __notice-email"></span>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">
@@ -21,9 +22,10 @@
                         <span class="__required">*</span>
                     </label>
                     <input type="password" class="form-control" id="password" placeholder="Password">
+                    <span class="__text-orange __text-tiny __notice-password"></span>
                 </div>
                 
-                <input class="btn btn-primary m-auto d-block btn-warning" type="submit" value="SignIn">
+                <input class="btn btn-primary m-auto d-block btn-warning __btn-submit" type="submit" value="SignIn">
 
                 <span class="mt-3 d-block">
                     Belum punya akun? 
@@ -36,4 +38,62 @@
 </div>
 
 <%- include('../partials/menu') %> 
+
+<script>
+    // settings
+    const $ = function(query) {
+        return document.querySelector(query)
+    }
+
+    // input
+    const pass = $('#password')
+    const email = $('#email')
+
+    // button
+    const button = $('.__btn-submit')
+
+    // form
+    const signinForm = $('.__form-signin')
+    
+    // notice
+    const emailNotice = $('.__notice-email')
+    const passNotice = $('.__notice-password')
+
+    signinForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        // reset text content error
+        emailNotice.textContent = ''
+        passNotice.textContent = ''
+
+        // get value
+        const passVal = pass.value
+        const emailVal = email.value
+
+        try {
+            const response = await fetch('/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ emailVal, passVal })
+            })
+
+            const data = await response.json()
+            
+            if (data.user) {
+                window.location.assign('/')
+            }
+
+            if (data.errors) {
+                emailNotice.textContent = data.errors.email
+                passNotice.textContent = data.errors.password
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    })
+
+
+
+</script>
+
 <%- include('../partials/footer') %> 

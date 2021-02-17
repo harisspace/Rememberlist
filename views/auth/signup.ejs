@@ -87,11 +87,14 @@
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault()
 
+        // reset text content error
+        emailNotice.textContent = ''
+        passNotice.textContent = ''
+
+        // get value
         const passVal = pass.value
         const emailVal = email.value
         const nameVal = name.value
-        console.log(emailVal, nameVal, passVal)
-
 
         try {
             const response = await fetch('/signup', {
@@ -99,7 +102,18 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ emailVal, nameVal, passVal })
             })
-            console.log(response)
+            const data = await response.json()
+            
+            // add errors to dom
+            if (data.errors) {
+                emailNotice.textContent = data.errors.email
+                passNotice.textContent = data.errors.password
+            }
+
+            if (data.user) {
+                window.location.assign('/signin')
+            }
+
         } catch(err) {
             console.log(err)
         }

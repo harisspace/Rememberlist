@@ -5,6 +5,7 @@
     --black: #000000;
     --gray1: #444444;
     --gray2: #707070;
+    --gray2-70: #70707042;
     --orange: #fd7e14;
     --yellow: #ffc107;
     --indigo: #6610f2;
@@ -26,6 +27,23 @@
 body {
     font-family: var(--popins);
     color: var(--black);
+}
+
+select {
+    font-family: 'Poppins', 'FontAwesome' !important;
+}
+
+option.__level-option:nth-child(1) {
+    color: red !important;
+}
+option.__level-option:nth-child(2) {
+    color: rgb(199, 199, 14) !important;
+}
+option.__level-option:nth-child(3) {
+    color: rgb(25, 109, 25) !important;
+}
+option.__level-option:nth-child(4) {
+    color: rgb(25, 68, 109) !important;
 }
 
 /* utils */
@@ -84,11 +102,26 @@ p {
     background-color: var(--yellow);
 }
 
+/* margin */
+.__mg-r-1 {
+    margin-right: 3px;
+}
+.__mg-r-2 {
+    margin-right: 6px;
+}
+.__mg-r-3 {
+    margin-right: 9px;
+}
+.__mg-r-4 {
+    margin-right: 12px;
+}
+
 /* wrapper */
 
 .__wrapper {
     max-width: calc(100% - 20px);
     margin: auto;
+    overflow-x: hidden;
 }
 
 .__required {
@@ -125,7 +158,7 @@ p {
 }
 
 nav.__menu {
-    z-index: 9999999 !important;
+    z-index: 999 !important;
 }
 
 .__menu-list {
@@ -167,6 +200,25 @@ nav.__menu {
     padding: 2px 5px;
 }
 
+/* mylist */
+.__identity {
+    margin-top: 35px;
+}
+
+.__select {
+    width: 100px;
+}
+
+.__today {
+    box-shadow: 1px 0 4px var(--gray2);
+}
+
+.__list-item {
+    border-bottom: 1px solid var(--gray2-70);
+}
+
+
+
 
 @media screen and (max-width: 576px) {
     :root {
@@ -189,7 +241,7 @@ nav.__menu {
 
 @media screen and (min-width: 768px) {
     /* menu */
-    .__menu {
+    /* .__menu {
         display: none;
-    }
+    } */
 }

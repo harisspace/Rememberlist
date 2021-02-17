@@ -1,36 +1,126 @@
 <nav class="__menu">
     <div class="__wrapper">
-        <ul class="__menu-list d-flex justify-content-between mb-0 mt-1">
-            <li>
-                <a href="/">
-                    <i class="fas fa-home"></i>
-                    <span href="/">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/">
-                    <i class="fas fa-stream"></i>
-                    <span href="/">Mylist</span>
-                </a>
-            </li>
-            <li>
-                <a href="/">
-                    <i class="fas fa-plus"></i>
-                    <span href="/">New</span>
-                </a>
-            </li>
-            <li>
-                <a href="/">
-                    <i class="fas fa-tag"></i>
-                    <span href="/">Label</span>
-                </a>
-            </li>
-            <li>
-                <a href="/">
-                    <i class="fas fa-history"></i>
-                    <span href="/">History</span>
-                </a>
-            </li>
-        </ul>
+
+        <!-- if user login change menu just logo -->
+        <% if (user) { %>
+            <ul class="__menu-list d-flex justify-content-between mb-0 mt-1">
+                <li>
+                    <a href="/">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mylist">
+                        <i class="fas fa-stream"></i>
+                        <span>Mylist</span>
+                    </a>
+                </li>
+                <li>
+                    <a data-bs-toggle="modal" data-bs-target="#__new">
+                        <i class="fas fa-plus"></i>
+                        <span class="__text-gray">New</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/label">
+                        <i class="fas fa-tag"></i>
+                        <span>Label</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/history">
+                        <i class="fas fa-history"></i>
+                        <span>History</span>
+                    </a>
+                </li>
+            </ul>
+            <% } else { %>
+                <ul class="__menu-list d-flex justify-content-center mb-0 mt-1">
+                    <li>
+                        <a href="/">
+                            <i class="fas fa-home"></i>
+                            <span href="/">LOGO</span>
+                        </a>
+                    </li>
+                </ul>
+                <% } %>   
     </div>
 </nav>
+
+<!-- Modal -->
+<div class="modal fade" id="__new" tabindex="-1" aria-labelledby="__new-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title __text-head-min __text-gray" id="__new-label">New List</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- form -->
+          <form action="/mylist" method="POST">
+            <!-- title -->
+            <div class="mb-1">
+                <label for="__title" class="form-label __text-normal __text-orange">Title</label>
+                <input  required type="text" class="form-control __text-normal" id="__title" name="title" placeholder="hafalan alquran">
+            </div>
+
+            <!-- category -->
+            <div class="mb-1">
+                <label for="__category" class="__text-normal __text-orange">Category</label>
+                <select id="__category" name="category" class="form-select form-select-sm __text-normal" aria-label=".form-select-sm example">
+                    <% if (locals.category) { %> 
+                        <% category.forEach(data => { %> 
+                            <option selected value="<%= data %>"><%= data %></option>
+                        <% })} else { %>
+                            <option selected value="category not found">category not found</option>
+                        <% } %>  
+                </select>
+            </div>
+
+            <!-- levell -->
+            <div class="mb-1">
+                <label for="__level" class="__text-normal __text-orange">Level</label>
+                <select id="__level" name="level" class="form-select form-select-sm __text-normal far" aria-label=".form-select-sm example">
+                    <option class="__level-option" selected value="1">&#xf10c; important and urgent</option>
+                    <option  class="__level-option" value="2">&#xf10c; important not urgent</option>
+                    <option class="__level-option" value="3">&#xf10c; urgent not important</option>
+                    <option class="__level-option" value="3">&#xf10c; not important and not urgent</option>
+                </select>
+            </div>
+
+            <!-- date -->
+            <div class="mb-3">
+                <label for="__level" class="__text-normal __text-orange">Date</label>
+                <input required type="text" name="date" class="__date-picker __text-normal form-control">
+            </div>
+
+            <!-- time -->
+            <!-- <div class="mb-3 open-by-input">
+                <label for="__time" class="__text-normal __text-orange">time</label>
+                <input type="text" class="timepicker-ui-input __text-normal" data-open="open-by-input" name="time" value="12:00 AM">
+            </div> -->
+
+            <div>
+                <button type="submit" class="btn __text-normal __bg-yellow">Create</button>
+            </div>
+          </form>
+          <!-- endform -->
+        </div>
+      </div>
+    </div>
+</div>
+
+<script src="thedatepicker-master/dist/the-datepicker.js"></script>
+
+<script>
+    const dateInput = document.querySelectorAll('.__date-picker')
+    // console.log(dateInput)
+    dateInput.forEach(input => {
+        const datepicker = new TheDatepicker.Datepicker(input)
+        datepicker.render()
+    })
+    
+    
+</script>
+  

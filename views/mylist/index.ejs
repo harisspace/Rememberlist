@@ -1,0 +1,369 @@
+<%- include('../partials/header') %> 
+<%- include('../partials/nav') %> 
+
+<div class="__wrapper">
+    <!-- top -->
+    <div class="__identity d-flex justify-content-between mb-4">
+        <span class="__text-head"><%= locals.userName %> list</span>
+    </div>
+
+    <!-- content -->
+    <main class="__main-list">
+       <% if (listNow.length) { %>
+         <!-- today -->
+         <div class="__today p-1 d-flex flex-column pb-0 mb-5">
+            <div class="__today-head">
+                <p class="__text-head-min d-inline">Today</p>
+                <span class="__text-tiny">Mon <%= listNowDate.tanggal %> <%= listNowDate.bulan %></span>
+            </div>
+            <% listNow.forEach(data => { %> 
+                <% if (data.isDone === false) { %>
+                        <!-- today item -->
+            <div class="__list-item d-flex justify-content-between pb-2" data-id="<%= data._id %>">
+                <div class="d-flex">
+                    <div class="__mg-r-3">
+                        <i class="far fa-circle __circle-tags" aria-hidden="true"></i>
+                    </div>
+                    <div class="d-inline-block">
+                        <span class="__text-normal d-block m-0"><%= data.title %> </span>
+                        <span class="__text-tiny">
+                            <i class="fa fa-circle" aria-hidden="true"></i>
+                            <%= data.category %> 
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- dropdown -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu __text-normal p-2">
+                        <li class="p-1">
+                            <a data-bs-toggle="modal" data-bs-target="#edit<%= data._id %>">
+                                Edit
+                            </a>
+                          </li>
+                          <li class="p-1">Set Tomorrow</li>
+                        <li class="p-1">
+                            <a data-bs-toggle="modal" data-bs-target="#note<%= data._id %>">
+                                Add Note
+                            </a>
+                        </li>
+                        <li class="p-1">
+                            <form class="__form-delete" data-id="<%= data._id %>">
+                                <button type="button" class="btn p-0 __text-normal __button-delete">Delete</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            <!-- end today item -->
+
+            <!-- Modal edit -->
+<div class="modal fade" id="edit<%= data._id %>" tabindex="-1" aria-labelledby="__new-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title __text-head-min __text-gray" id="__new-label">Edit List</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- form -->
+          <form class="__form-edit" method="POST" action="/mylist/update/<%= data._id %>">
+            <!-- title -->
+            <div class="mb-1">
+                <label for="__title" class="form-label __text-normal __text-orange">Title</label>
+                <input  required type="text" class="form-control __text-normal __input-edit" id="__title" name="title" placeholder="hafalan alquran" value="<%= data.title %>">
+            </div>
+
+            <!-- category -->
+            <div class="mb-1">
+                <label for="__category" class="__text-normal __text-orange">Category</label>
+                <select id="__category" name="category" class="__input-edit form-select form-select-sm __text-normal" aria-label=".form-select-sm example">
+                    <% if (locals.category) { %> 
+                        <% category.forEach(data => { %> 
+                            <option selected value="<%= data %>"><%= data %></option>
+                        <% })} else { %>
+                            <option selected value="category not found">category not found</option>
+                        <% } %>  
+                </select>
+            </div>
+
+            <!-- levell -->
+            <div class="mb-1">
+                <label for="__level" class="__text-normal __text-orange">Level</label>
+                <select id="__level" name="level" class="__input-edit form-select form-select-sm __text-normal far" aria-label=".form-select-sm example">
+                    <option class="__level-option" selected value="1">&#xf10c; important and urgent</option>
+                    <option  class="__level-option" value="2">&#xf10c; important not urgent</option>
+                    <option class="__level-option" value="3">&#xf10c; urgent not important</option>
+                    <option class="__level-option" value="3">&#xf10c; not important and not urgent</option>
+                </select>
+            </div>
+
+            <!-- date -->
+            <div class="mb-3">
+                <label for="__level" class="__text-normal __text-orange">Date</label>
+                <input required type="text" name="date" class="__date-picker __text-normal form-control __input-edit">
+            </div>
+
+            <div>
+                <button type="submit" class="btn __text-normal __bg-yellow __button-edit __input-edit">Edit</button>
+            </div>
+          </form>
+          <!-- endform -->
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- endModal edit -->
+
+            <!-- Modal note -->
+<div class="modal fade" id="note<%= data._id %>" tabindex="-1" aria-labelledby="__new-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title __text-head-min __text-gray" id="__new-label">Edit List</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- form -->
+          <form action="/mylist/<%= data._id %>/update" method="POST">
+            <!-- title -->
+            <div class="mb-1">
+                <label for="__title" class="form-label __text-normal __text-orange">Title</label>
+                <input  required type="text" class="form-control __text-normal" id="__title" name="title" placeholder="hafalan alquran" value="<%= data.title %>">
+            </div>
+
+           <div>
+                <label for="__note" class="form-label __text-normal __text-orange">Note</label>
+                <input  required type="text" class="form-control __text-normal" id="__note" name="note" placeholder="write your note here...">
+           </div>
+
+            <div>
+                <button type="submit" class="btn __text-normal __bg-yellow">Add Note</button>
+            </div>
+          </form>
+          <!-- endform -->
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- endModal note -->
+                    <% } %>  
+                <% }) %> 
+  
+        </div>
+        <!-- end today -->
+        <% } else { %>
+            <h1>hello free time</h1>
+            <% } %>  
+        
+
+        <!-- tomorrow -->
+        <div class="accordion __today p-1 d-flex flex-column pb-0 mb-5 p-0" id="accordionExample">
+            <div class="accordion-item">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <div class="__today-head">
+                        <p class="__text-head-min d-inline">All List</p>
+                    </div>
+                </button>
+
+              <div id="collapseOne" class="accordion-collapse collapse show p-0" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body p-0 pt-2 __today">
+                    <!-- content -->
+                    <div class="__list-item d-flex justify-content-between pb-2">
+                        <div class="d-flex">
+                            <div class="__mg-r-3">
+                                <i class="far fa-circle __circle-tags" aria-hidden="true"></i>
+                            </div>
+                            <div class="d-inline-block">
+                                <span class="__text-normal d-block m-0">hello</span>
+                                <span class="__text-tiny">
+                                    <i class="fa fa-circle" aria-hidden="true"></i>
+                                    important
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu __text-normal p-2">
+                              <li class="p-1">
+                                <a data-bs-toggle="modal" data-bs-target="#edit">
+                                    edit
+                                </a>
+                              </li>
+                              <li class="p-1">set tomorrow</li>
+                              <li class="p-1">add note</li>
+                            </ul>
+                        </div>                        
+                    </div>
+                    <!-- end content -->
+                    <!-- content -->
+                    <div class="__list-item d-flex justify-content-between pb-2">
+                        <div class="d-flex">
+                            <div class="__mg-r-3">
+                                <i class="far fa-circle __circle-tags" aria-hidden="true"></i>
+                            </div>
+                            <div class="d-inline-block">
+                                <span class="__text-normal d-block m-0">hello </span>
+                                <span class="__text-tiny">
+                                    <i class="fa fa-circle" aria-hidden="true"></i>
+                                    important
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- dropdown -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu __text-normal p-2">
+                              <li>edit</li>
+                              <li>set tomorrow</li>
+                              <li>add note</li>
+                            </ul>
+                        </div>                        
+                    </div>
+                    <!-- end content -->
+
+                </div>
+              </div>
+              <!-- endtomorrow -->
+        </div>
+           
+
+        
+
+    </main>
+
+</div>
+</div>
+
+<%- include('../partials/menu') %> 
+
+<script>
+    // settings
+    const $ = function(query) {
+        return document.querySelectorAll(query)
+    }
+
+    const circleTags = $('.__circle-tags')
+    
+    circleTags.forEach(circleTag => {
+        circleTag.addEventListener('click', async (e) => {
+            let listDiv = e.target.parentNode.parentNode.parentNode
+            let id = listDiv.dataset.id
+            // console.log(id)
+            const endpoint = `/mylist/isDone/${id}`
+
+            try {
+                const data = await fetch(endpoint, {
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ isDone: true })
+                })
+
+                if (data) {
+                    let result = await data.json()
+                    window.location.assign(result.redirect)
+                }else {
+                    console.log('cannot delete')
+                }
+
+            } catch(err) {
+                console.log(err)
+            }
+
+
+            // icon
+            circleTag.classList.remove('far')
+            circleTag.classList.add('fas')
+    })
+    }) 
+
+    const buttonDelete = $('.__button-delete')
+    console.log(buttonDelete)
+    buttonDelete.forEach(button => {
+        console.log(button)
+        button.addEventListener('click', (e) => {
+            // e.preventDefault()
+            const id = e.target.parentNode.dataset.id
+            // console.log(id)
+            const endpoint = `/mylist/delete/${id}`
+
+            fetch(endpoint, {
+                method: 'delete'
+            })
+                .then(res => {
+                    // console.log(res)
+                    return res.json()
+                })
+                .then(data => {
+                    window.location.assign(data.redirect)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+    })
+
+    // const buttonEdit = $('.__button-edit')
+    // const formEdit = $('.__input-edit')
+
+    // formEdit.forEach(form => {
+    //     buttonEdit.forEach(button => {
+    //         button.addEventListener('click', (e) => {
+    //             // console.log(form)
+    //             if (form == e.target) {
+    //                 console.log(form)
+
+    //                 return
+    //             }
+    //         })
+    //     })
+    // })
+
+    // buttonEdit.forEach(button => {
+    //     button.addEventListener('click', (e) => {
+    //         let id = e.target.parentNode.parentNode.dataset.id
+
+    //         const child = Array(e.target.parentNode.parentNode.children)[0]
+
+    //         const endpoint = `/mylist/update/${id}`
+
+    //         for (const data of child) {
+    //             console.log(value)
+    //             console.log(data.lastElementChild.value)
+    //             // console.log(data.lastElementChild)
+
+
+    //             fetch(endpoint, {
+    //             method: 'PUT',
+    //             body: JSON.stringify({  })
+    //             })
+    //             .then(res => {
+    //                 res.json()
+    //             })
+    //             .then(data => {
+    //                 console.log(data)
+    //             })
+    //             .catch(err => {
+    //                 console.log(err)
+    //             })
+    //         }
+    //     })
+    // })
+
+
+</script>
+
+<%- include('../partials/footer') %> 
